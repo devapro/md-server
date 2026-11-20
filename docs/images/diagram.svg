@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120" font-family="sans-serif" font-size="14">
+  <rect x="10" y="35" width="120" height="50" rx="8" fill="#ddf4ff" stroke="#0969da"/>
+  <text x="70" y="65" text-anchor="middle" fill="#0969da">DOCS_DIR</text>
+  <rect x="180" y="35" width="120" height="50" rx="8" fill="#dafbe1" stroke="#1a7f37"/>
+  <text x="240" y="65" text-anchor="middle" fill="#1a7f37">md-server</text>
+  <rect x="350" y="35" width="120" height="50" rx="8" fill="#fff8c5" stroke="#9a6700"/>
+  <text x="410" y="65" text-anchor="middle" fill="#9a6700">Browser</text>
+  <path d="M130 60h44M300 60h44" stroke="#59636e" stroke-width="2" marker-end="url(#a)"/>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0l10 5-10 5z" fill="#59636e"/></marker></defs>
+</svg>

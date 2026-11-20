@@ -1,0 +1,14 @@
+services:
+  md-server:
+    build: .
+    image: md-server:latest
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT:-8080}:3000"
+    environment:
+      SITE_TITLE: ${SITE_TITLE:-Docs}
+      MD_ALLOW_HTML: ${MD_ALLOW_HTML:-false}
+      TREE_CACHE_MS: ${TREE_CACHE_MS:-2000}
+    volumes:
+      # Host folder with the Markdown files, mounted read-only.
+      - ${DOCS_DIR:-./docs}:/docs:ro
