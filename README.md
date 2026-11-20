@@ -13,17 +13,61 @@ collapsible folder tree in the sidebar.
 - Read-only mount, hidden files (`.git`, `.env`, …) are never served, path traversal and
   symlinks pointing outside the docs folder are blocked
 
-## Quick start (Docker Compose)
+## How to run (Docker Compose)
+
+Requirements: [Docker](https://docs.docker.com/get-docker/) with the Compose plugin
+(`docker compose version` should work).
+
+1. Get the code:
+
+   ```bash
+   git clone git@github.com:devapro/md-server.git
+   cd md-server
+   ```
+
+2. Create your config and point it at your docs folder:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env`:
+
+   ```dotenv
+   DOCS_DIR=/home/me/my-notes   # folder with your .md files (absolute, or relative to this folder)
+   HOST_PORT=8080               # port to open in the browser
+   ```
+
+   Leave `DOCS_DIR=./docs` to try it with the bundled sample docs.
+
+3. Build and start:
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+4. Open <http://localhost:8080> (or whichever `HOST_PORT` you chose).
+
+The docs folder is mounted read-only, so edits to the files show up on the next page load
+without a restart. The sidebar is re-scanned at most every `TREE_CACHE_MS` milliseconds.
+
+### Everyday commands
 
 ```bash
-cp .env.example .env        # then set DOCS_DIR to your docs folder
-docker compose up -d --build
+docker compose logs -f          # follow the server log
+docker compose up -d            # apply changes made to .env (recreates the container)
+docker compose up -d --build    # rebuild after pulling new code
+docker compose down             # stop and remove the container
 ```
 
-Open <http://localhost:8080>.
+### Troubleshooting
 
-The docs folder is mounted read-only, so edits to the files show up on the next page load.
-The sidebar is re-scanned at most every `TREE_CACHE_MS` milliseconds.
+- **`Bind for 0.0.0.0:8080 failed: port is already allocated`**: another program uses that
+  port. Set a different `HOST_PORT` in `.env` and run `docker compose up -d` again.
+- **Empty sidebar / "No Markdown files found"**: check `DOCS_DIR` points at the right folder
+  (`docker compose exec md-server ls /docs` shows what the container sees).
+- **500 errors with `EACCES` in the log**: the files must be readable by the container user
+  (uid 1000), e.g. `chmod -R a+rX /path/to/docs`.
 
 ## Configuration (`.env`)
 
